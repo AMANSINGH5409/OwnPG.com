@@ -2,6 +2,9 @@ import React from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { GoogleLogin } from "@react-oauth/google";
+import { AUTH } from "../constants/actionType";
+import jwtDecode from "jwt-decode";
 
 import { signin, signup } from "../actions/authAction";
 
@@ -35,6 +38,22 @@ const Auth = () => {
       console.log("SiginIn");
       dispatch(signin(formData, navigate));
     }
+  };
+
+  const googleSuccess = async (res) => {
+    const result = jwtDecode(res?.credential);
+    const token = res?.credential;
+    try {
+      dispatch({ type: AUTH, data: { result, token } });
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const googleFailure = (error) => {
+    console.log(error);
+    console.log("Google Sign In was unsuccessful. Try Again Later.");
   };
 
   return (
@@ -102,6 +121,19 @@ const Auth = () => {
             placeholder="Confirm Password*"
           />
         )}
+
+        <div className="mb-8">
+          <GoogleLogin
+            size="large"
+            onSuccess={(creadentialResponse) => {
+              googleSuccess(creadentialResponse);
+            }}
+            onError={(error) => {
+              googleFailure(error);
+            }}
+            useOneTap
+          />
+        </div>
 
         <button
           onClick={handleSubmit}

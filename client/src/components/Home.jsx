@@ -14,7 +14,6 @@ const Home = () => {
           <p className="text-lg font-normal mt-2">Happy to have you here!!</p>
           <h1 className="text-2xl font-medium mt-2">{`Hi, ${user.result.name}`}</h1>
           <p className="text-2xl font-medium mt-2">{`Email-Id : ${user.result.email}`}</p>
-          <p className="text-2xl font-medium mt-2">{`User-Id : ${user.result._id}`}</p>
         </div>
       )}
     </div>
