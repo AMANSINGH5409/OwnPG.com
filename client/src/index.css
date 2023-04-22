@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+html,
+body {
+    /* background: linear-gradient(to bottom , rgba(29, 152, 168, 0.2) 25.74%, rgba(19, 0, 223, 0.1) 45% , rgba(227, 149, 33, 0.1) 90.02%); */
+    background-color: #5CDB95;
+    /* background-attachment: fixed;
+    background-color: #EAEAEA; */
+    /* background: #9CECFB;
+    background: -webkit-linear-gradient(to top, #0052D4, #65C7F7, #9CECFB);
+    background: linear-gradient(to top, #0052D4, #65C7F7, #9CECFB); */
+
+}
