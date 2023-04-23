@@ -3,11 +3,12 @@ import { useLocation, useNavigate } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 import { useEffect } from "react";
 import { LOGOUT } from "../constants/actionType";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setLogout } from "../state/userSlice";
 
 const Navbar = () => {
   const navigate = useNavigate();
-
+  const userData = useSelector((state) => state.userRed)
   const dispatch = useDispatch();
 
   const location = useLocation();
@@ -20,6 +21,7 @@ const Navbar = () => {
   const [isActive, setIsActive] = useState('home');
 
   useEffect(() => {
+    // setUser(localStorage.getItem("userProfile"))
     const token = user?.token;
 
     if (token) {
@@ -33,7 +35,8 @@ const Navbar = () => {
   }, [location]);
 
   const logout = () => {
-    dispatch({ type: LOGOUT });
+    // dispatch({ type: LOGOUT });
+    dispatch(setLogout());
     navigate("/");
 
     setUser(null);
@@ -41,19 +44,19 @@ const Navbar = () => {
 
   const menuItems = ["Home", "Guide", "Suggest Me", "My Profile"];
   return (
-    <div className="fixed top-0 w-full backdrop-blur-sm bg-white/30 h-20 flex items-center justify-between px-8 border-b-2 border-gray-400">
+    <div className="fixed top-0 w-full backdrop-blur-sm bg-white/30 h-20 flex items-center justify-between px-8 shadow border-b border-gray-400 pb-2">
       <div
         className="logo text-[#05386B] text-3xl font-medium cursor-pointer"
         onClick={() => navigate("/")}
       >
-        
+
         OwnPG.com
       </div>
       <div className="navItems w-2/5">
         <ul className="flex items-center justify-between">
           {menuItems.map((item) => {
             return (
-              <li className={`text-xl font-normal text-${item.toLowerCase() === isActive ? 'white' : '[#05386B]'} cursor-pointer hover:scale-110 hover:font-bold`}
+              <li className={`text-xl font-normal text-${item.toLowerCase() === isActive ? 'green' : '[#05386B]'} cursor-pointer hover:scale-110 hover:font-bold`}
                 onClick={() => {
                   setIsActive(`${item.toLowerCase()}`)
                   navigate(`/${item === 'Home' ? '' : item.toLowerCase()}`);
@@ -71,7 +74,7 @@ const Navbar = () => {
         onClick={() => navigate("/auth")}
       >
         <p className="text-white">
-          {user ? user.result.name : "Authenticate Me"}
+          {userData.user ? userData.user?.name : "Authenticate Me"}
         </p>
       </div>
     </div>

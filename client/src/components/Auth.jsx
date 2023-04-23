@@ -7,6 +7,7 @@ import { AUTH } from "../constants/actionType";
 import jwtDecode from "jwt-decode";
 
 import { signin, signup } from "../actions/authAction";
+import { setLogin } from "../state/userSlice";
 
 const initialState = {
   name: "",
@@ -41,10 +42,12 @@ const Auth = () => {
   };
 
   const googleSuccess = async (res) => {
-    const result = jwtDecode(res?.credential);
+    // const result = jwtDecode(res?.credential);
+    const user = jwtDecode(res?.credential);
     const token = res?.credential;
     try {
-      dispatch({ type: AUTH, data: { result, token } });
+      // dispatch({ type: AUTH, data: { result, token } });
+      dispatch(setLogin({ user, token }))
       navigate("/");
     } catch (error) {
       console.log(error);
