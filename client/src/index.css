@@ -8,8 +8,8 @@
 }
 
 .app {
-    background: linear-gradient(to bottom , rgba(8, 209, 240, 0.2) 25.74%, rgba(19, 0, 223, 0.1) 45% , rgba(227, 149, 33, 0.1) 90.02%);
-    /* background-color: #5CDB95; */
+    background: linear-gradient(to right , rgba(0, 97, 255 , 0.1) 5.74%, rgba(96, 239, 255) 45% );
+    background-color: #448DE1;
     /* background-attachment: fixed;
     background-color: #EAEAEA; */
     /* background: #9CECFB;

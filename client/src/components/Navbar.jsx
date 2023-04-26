@@ -56,7 +56,7 @@ const Navbar = () => {
         <ul className="flex items-center justify-between">
           {menuItems.map((item) => {
             return (
-              <li className={`text-xl font-normal text-${item.toLowerCase() === isActive ? 'green' : '[#05386B]'} cursor-pointer hover:scale-110 hover:font-bold`}
+              <li className={`text-xl font-normal text-${item.toLowerCase() === isActive ? 'white' : '[#05386B]'} cursor-pointer hover:scale-110 hover:font-bold`}
                 onClick={() => {
                   setIsActive(`${item.toLowerCase()}`)
                   navigate(`/${item === 'Home' ? '' : item.toLowerCase()}`);
@@ -70,7 +70,7 @@ const Navbar = () => {
         </ul>
       </div>
       <div
-        className="authBtn flex items-center justify-end px-8 py-2 rounded-lg bg-[#6D00D3] hover:scale-110 transition ease-in-out delay-150 cursor-pointer"
+        className="authBtn flex items-center justify-end px-8 py-2 rounded-lg bg-[#002B5C] hover:scale-110 transition ease-in-out delay-150 cursor-pointer"
         onClick={() => navigate("/auth")}
       >
         <p className="text-white">
