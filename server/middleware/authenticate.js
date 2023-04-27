@@ -16,7 +16,8 @@ export const checkAuth = (req, res, next) => {
 
             req.userId = decodedData?.sub;
         }
+        next();
     } catch (error) {
-        console.log(error);
+        res.status(400).json({ errorMsg: error.message });
     }
 }
