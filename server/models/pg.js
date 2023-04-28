@@ -58,7 +58,6 @@ const pgSchema = mongoose.Schema({
     },
     ownerUid: {
         type: String,
-        required: true,
     },
     facilities: {
         type: [String],
@@ -78,6 +77,7 @@ const pgSchema = mongoose.Schema({
             distance: String,
         }],
         required: true,
+        default:[{}],
     },
     nearByFoodStalls: {
         type: [String],
@@ -89,6 +89,10 @@ const pgSchema = mongoose.Schema({
             distance: Number,
         }],
         default: [{}],
+    },
+    createdAt: {
+        type: Date,
+        default: new Date(),
     }
 });
 

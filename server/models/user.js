@@ -15,6 +15,10 @@ const userSchema = mongoose.Schema({
     },
     id: {
         type: String,
+    },
+    isOwner: {
+        type: Boolean,
+        default: false,
     }
 });
 
