@@ -11,6 +11,8 @@ import { motion } from 'framer-motion'
 const App = () => {
     // states
     const [isLoading, setIsLoading] = useState(true);
+    const [isTopOfPage, setIsTopOfPage] = useState(true);
+    const [isActive, setIsActive] = useState('home');
 
     const animationVariants = {
         start: { scale: 0 },
@@ -20,6 +22,16 @@ const App = () => {
         setTimeout(() => {
             setIsLoading(false);
         }, 3000)
+
+        // for scrolling effect
+        const handleScroll = () => {
+            if (window.scrollY === 0) setIsTopOfPage(true);
+            if (window.scrollY !== 0) setIsTopOfPage(false);
+        }
+
+        window.addEventListener("scroll", handleScroll)
+
+        return () => window.removeEventListener("scroll", handleScroll)
     }, []);
 
     return (
@@ -30,13 +42,13 @@ const App = () => {
                     animate="end"
                     variants={animationVariants}
                     transition={{ duration: 3.0 }}
-                    className='h-full'
+                    className='h-full '
                 >
                     <SplashScreen />
                 </motion.div>
                 :
                 <motion.div
-                    initial={{ opacity: 0 , scale : 1}}
+                    initial={{ opacity: 0, scale: 1 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 1.0 }}
                     className="h-full">
@@ -44,7 +56,7 @@ const App = () => {
                         <BrowserRouter>
                             <div className='app h-full'>
                                 <div className=''>
-                                    <Navbar />
+                                    <Navbar isTopOfPage={isTopOfPage} isActive={isActive} setIsActive={setIsActive} />
                                 </div>
                                 <div className="pt-20">
                                     <Routes>

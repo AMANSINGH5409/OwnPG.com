@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
-import { AUTH } from "../constants/actionType";
 import jwtDecode from "jwt-decode";
 
 import { signin, signup } from "../actions/authAction";
@@ -34,6 +33,7 @@ const Auth = () => {
     e.preventDefault();
     if (isSignUp) {
       console.log("SiginUp");
+      
       dispatch(signup(formData, navigate));
     } else {
       console.log("SiginIn");
@@ -42,11 +42,9 @@ const Auth = () => {
   };
 
   const googleSuccess = async (res) => {
-    // const result = jwtDecode(res?.credential);
     const user = jwtDecode(res?.credential);
     const token = res?.credential;
     try {
-      // dispatch({ type: AUTH, data: { result, token } });
       dispatch(setLogin({ user, token }))
       navigate("/");
     } catch (error) {
