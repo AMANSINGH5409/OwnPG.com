@@ -58,14 +58,14 @@ const Navbar = ({ isTopOfPage, setIsActive, isActive, setVisible }) => {
 
       if (decodedToken.exp * 1000 < new Date().getTime()) logout();
     }
-  }, [dispatch, user, token]);
+  }, [dispatch,token,user]);
 
 
-  const menuItems = ["Home", "Guide", "Suggest Me", "My Profile"];
+  const menuItems = ["Home", "Explore" , "Guide", "Suggest Me", "My Profile"];
   return (
     <div className={`fixed top-0 w-full ${navbarBackground} h-20 flex z-40 items-center justify-between px-8 pb-2`}>
       <div
-        className="logo text-[#05386B] text-3xl font-medium cursor-pointer"
+        className="logo text-h1Color text-3xl font-medium cursor-pointer"
         onClick={() => navigate("/")}
       >
         OwnPG.com

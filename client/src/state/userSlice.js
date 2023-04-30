@@ -25,9 +25,9 @@ export const userSlice = createSlice({
             state.token = action.payload.token;
         },
         setSignup: (state, action) => {
-            state.user = action.payload.result
+            state.user = action.payload.user
             state.token = action.payload.token
-            localStorage.setItem('userProfile', JSON.stringify(action.payload.result));
+            localStorage.setItem('userProfile', JSON.stringify(action.payload.user));
             localStorage.setItem('token', JSON.stringify(action.payload.token));
         },
         setLogout: (state) => {

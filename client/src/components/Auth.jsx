@@ -32,14 +32,23 @@ const Auth = ({ visible, onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (isSignUp) {
-      const { result, token } = await signup(formData);
-      // let registerPromise = await signup(formData)
-      dispatch(setSignup({ result, token }));
-      // toast.promise(registerPromise, {
-      //   pending: 'Waiting for API response...',
-      //   success: 'API request successful!',
-      //   error: 'API request failed!',
-      // })
+      // const { result, token } = await signup(formData);
+      let registerPromise = signup(formData)
+      console.log(registerPromise);
+
+      toast.promise(registerPromise, {
+        pending: 'Creating User...',
+        success: 'User Created Successfully...',
+        error: 'Something went Wrong!',
+      })
+      registerPromise.then((data) => {
+        const user = data.result;
+        const token = data.token;
+        dispatch(setSignup({ user, token }));
+      })
+        .catch((error => {
+          console.log(error);
+        }))
     } else {
       const { user, token } = await signin(formData);
       dispatch(setLogin({ user, token }));
