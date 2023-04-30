@@ -40,14 +40,14 @@ const App = () => {
     }
 
     return (
-        <div className="h-screen">
+        <div className={`h-screen ${ isLoading ? "overflow-hidden" : ""}`}>
             {isLoading ?
                 <motion.div
                     initial="start"
                     animate="end"
                     variants={animationVariants}
                     transition={{ duration: 3.0 }}
-                    className='h-full '
+                    className='h-full'
                 >
                     <SplashScreen />
                 </motion.div>

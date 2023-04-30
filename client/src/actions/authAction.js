@@ -1,16 +1,21 @@
 import * as api from '../api/index';
+import { setMessage } from '../state/userSlice'
 
-export const signin = async (formData) => {
-    try {
-        const { data } = await api.signin(formData);
 
-        return data;
-    } catch (error) {
-        console.log(error.message);
-    }
+export const signin = async (formData,dispatch) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const { data } = await api.signin(formData);
+
+            resolve(data);
+        } catch (error) {
+            dispatch(setMessage({ msg: error.response.data.message }))
+            reject(error.response.data.message);
+        }
+    })
 }
 
-export const signup = async (formData) => {
+export const signup = async (formData, dispatch) => {
     return new Promise(async (resolve, reject) => {
         try {
             const { data } = await api.signup(formData);
@@ -18,7 +23,7 @@ export const signup = async (formData) => {
             resolve(data);
 
         } catch (error) {
-            console.log(error.response.data.message);
+            dispatch(setMessage({ msg: error.response.data.message }))
             reject(error.response.data.message);
         }
 

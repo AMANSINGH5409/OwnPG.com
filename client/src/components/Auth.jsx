@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { GoogleLogin } from "@react-oauth/google";
 import jwtDecode from "jwt-decode";
 import { motion } from "framer-motion";
@@ -8,6 +8,7 @@ import { signin, signup } from "../actions/authAction";
 import { setLogin, setSignup } from "../state/userSlice";
 import '../index.css'
 import { toast } from "react-toastify";
+
 
 const initialState = {
   name: "",
@@ -22,6 +23,7 @@ const Auth = ({ visible, onClose }) => {
   const [formData, setFormData] = useState(initialState);
 
   const dispatch = useDispatch();
+  const userData = useSelector((state) => state.userRed)
 
 
   const handleChange = (e) => {
@@ -32,15 +34,15 @@ const Auth = ({ visible, onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (isSignUp) {
-      // const { result, token } = await signup(formData);
-      let registerPromise = signup(formData)
-      console.log(registerPromise);
+
+      let registerPromise = signup(formData, dispatch)
 
       toast.promise(registerPromise, {
         pending: 'Creating User...',
         success: 'User Created Successfully...',
-        error: 'Something went Wrong!',
+        error: userData.message,
       })
+
       registerPromise.then((data) => {
         const user = data.result;
         const token = data.token;
@@ -50,9 +52,19 @@ const Auth = ({ visible, onClose }) => {
           console.log(error);
         }))
     } else {
-      const { user, token } = await signin(formData);
-      dispatch(setLogin({ user, token }));
+      let loggedInPromise = signin(formData,dispatch);
 
+      toast.promise(loggedInPromise,{
+        pending: 'Checking...',
+        success: 'LoggedIn Successfully...',
+        error: userData.message,
+      })
+
+      loggedInPromise.then((data)=>{
+        const user = data.result;
+        const token = data.token;
+        dispatch(setLogin({ user, token }));
+      })
     }
     onClose();
   };

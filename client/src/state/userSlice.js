@@ -3,7 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     user: null,
     mode: "light",
-    token: null
+    token: null,
+    message : ""
 }
 
 export const userSlice = createSlice({
@@ -35,10 +36,12 @@ export const userSlice = createSlice({
             state.token = null;
             localStorage.clear();
         },
-
+        setMessage: (state, action) => {
+            state.message = action.payload.msg ;
+        }
     }
 })
 
-export const { setMode, setLogin, setLogout, setLoggedInUser, setSignup } = userSlice.actions;
+export const { setMode, setLogin, setLogout, setLoggedInUser, setSignup, setMessage } = userSlice.actions;
 
 export default userSlice.reducer;

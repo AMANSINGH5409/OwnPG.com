@@ -8,6 +8,7 @@
 }
 body{
   background: linear-gradient(to right , rgba(0, 97, 255 , 0.5) 5.74%, rgba(96, 239, 255) 45% );
+  /* overflow: hidden; */
 }
 
 .modal {

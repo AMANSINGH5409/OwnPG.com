@@ -28,7 +28,7 @@ export const signup = async (req, res) => {
     try {
         const existingUser = await User.findOne({ email });
 
-        if (existingUser) return res.status(400).json({ message: "User Already Exists !" });
+        if (existingUser) return res.status(400).json({ message: "EmailId Already Exists !" });
 
         const generateSalt = Math.floor(Math.random() * 12) + 1;
 

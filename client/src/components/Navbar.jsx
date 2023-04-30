@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,7 +10,7 @@ const Navbar = ({ isTopOfPage, setIsActive, isActive, setVisible }) => {
   const navigate = useNavigate();
   const userData = useSelector((state) => state.userRed)
   const dispatch = useDispatch();
-
+  const location = useLocation();
 
   // states
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("userProfile")));
@@ -58,7 +58,7 @@ const Navbar = ({ isTopOfPage, setIsActive, isActive, setVisible }) => {
 
       if (decodedToken.exp * 1000 < new Date().getTime()) logout();
     }
-  }, [dispatch,token,user]);
+  }, [dispatch,token,user,location]);
 
 
   const menuItems = ["Home", "Explore" , "Guide", "Suggest Me", "My Profile"];
