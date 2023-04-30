@@ -30,8 +30,6 @@ export const signup = async (req, res) => {
 
         if (existingUser) return res.status(400).json({ message: "User Already Exists !" });
 
-        if (password !== confirmPassword) return res.status(400).json({ message: "Passwords don't match !!" });
-
         const generateSalt = Math.floor(Math.random() * 12) + 1;
 
         const hashedPassword = await bcrypt.hash(password, generateSalt);

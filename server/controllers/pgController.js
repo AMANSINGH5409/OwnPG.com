@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 import PG from '../models/pg.js';
 
-export const test = (req, res) => { 
-    return res.json({message:"Chal Raha Hai"});
+export const test = (req, res) => {
+    return res.json({ message: "Chal Raha Hai" });
 }
 
 export const createPg = async (req, res) => {
@@ -52,7 +52,17 @@ export const deletePg = async (req, res) => {
     }
 }
 
-export const getAllPgs = async (req, res) => { }
+export const getAllPgs = async (req, res) => {
+    try {
+        const pgs = await PG.find();
+
+        const docCount = await PG.countDocuments({});
+
+        return res.status(200).json({ noOfPgs: docCount, data: pgs });
+    } catch (error) {
+        return res.status(500).json({ message: error.toString() + "At: server / controllers / pgController.js / getAllPgs()" });
+    }
+}
 
 export const getPg = async (req, res) => { }
 
