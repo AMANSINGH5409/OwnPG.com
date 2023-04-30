@@ -4,8 +4,9 @@ import jwtDecode from "jwt-decode";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setLogout, setLoggedInUser } from "../state/userSlice";
+import { logoutImg } from "../assets";
 
-const Navbar = ({ isTopOfPage, setIsActive, isActive }) => {
+const Navbar = ({ isTopOfPage, setIsActive, isActive, setVisible }) => {
   const navigate = useNavigate();
   const userData = useSelector((state) => state.userRed)
   const dispatch = useDispatch();
@@ -47,7 +48,7 @@ const Navbar = ({ isTopOfPage, setIsActive, isActive }) => {
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("userProfile")));
     setToken(JSON.parse(localStorage.getItem("token")));
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     dispatch(setLoggedInUser({ user, token }));
@@ -89,12 +90,27 @@ const Navbar = ({ isTopOfPage, setIsActive, isActive }) => {
       </div>
       <div
         className="authBtn flex items-center justify-end px-8 py-2 rounded-lg bg-[#002B5C] hover:scale-110 transition ease-in-out delay-150 cursor-pointer"
-        onClick={() => navigate("/auth")}
+        onClick={() => {
+          if (userData.user) {
+            logout();
+          } else {
+            setVisible(true);
+          }
+          // navigate("/auth")
+        }}
       >
-        <p className="text-white">
+        <p className="text-white flex gap-3">
           {userData.user ? userData?.user.name : "Login/Sign Up"}
+
+          {/*  show image only when user is logged in */}
+          {userData.user ?
+            <img src={logoutImg} alt="logout" className="w-[20px]" />
+            : ""
+          }
         </p>
       </div>
+
+
     </div>
   );
 };
