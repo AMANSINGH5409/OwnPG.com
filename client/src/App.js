@@ -13,6 +13,7 @@ const App = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [isTopOfPage, setIsTopOfPage] = useState(true);
     const [isActive, setIsActive] = useState('home');
+    const [visible, setVisible] = useState(false);
 
     const animationVariants = {
         start: { scale: 0 },
@@ -33,6 +34,10 @@ const App = () => {
 
         return () => window.removeEventListener("scroll", handleScroll)
     }, []);
+
+    const handleOnclose = () => {
+        setVisible(false);
+    }
 
     return (
         <div className="h-screen">
@@ -56,16 +61,17 @@ const App = () => {
                         <BrowserRouter>
                             <div className='app h-full'>
                                 <div className=''>
-                                    <Navbar isTopOfPage={isTopOfPage} isActive={isActive} setIsActive={setIsActive} />
+                                    <Navbar isTopOfPage={isTopOfPage} setVisible={setVisible} visible={visible} isActive={isActive} setIsActive={setIsActive} />
                                 </div>
                                 <div className="pt-20">
                                     <Routes>
                                         <Route path='/' exact Component={Home} />
-                                        <Route path='/auth' exact Component={Auth} />
+                                        {/* <Route path='/auth' onClose={handleOnclose} visible={visible} exact Component={Auth} /> */}
                                     </Routes>
                                 </div>
                             </div>
                         </BrowserRouter>
+                        <Auth onClose={handleOnclose} visible={visible} />
                     </GoogleOAuthProvider>
                 </motion.div>
             }

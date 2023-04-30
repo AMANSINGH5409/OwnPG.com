@@ -1,26 +1,26 @@
 import * as api from '../api/index';
-import { AUTH } from '../constants/actionType';
 
-export const signin = (formData, navigate) => async (dispatch) => {
+export const signin = async (formData) => {
     try {
         const { data } = await api.signin(formData);
 
-        dispatch({ type: AUTH, data });
-
-        navigate("/");
+        return data;
     } catch (error) {
-        console.log(error);
+        console.log(error.message);
     }
-};
+}
 
-export const signup = (formData, navigate) => async (dispatch) => {
-    try {
-        const { data } = await api.signup(formData);
+export const signup = async (formData) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const { data } = await api.signup(formData);
+            // console.log(data);
+            resolve(data);
 
-        dispatch({ type: AUTH, data });
+        } catch (error) {
+            console.log(error.response.data.message);
+            reject(error.response.data.message);
+        }
 
-        navigate('/');
-    } catch (error) {
-        console.log(error);
-    }
-};
+    })
+}

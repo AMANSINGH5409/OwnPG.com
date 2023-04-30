@@ -19,13 +19,16 @@ export const userSlice = createSlice({
             localStorage.setItem('userProfile', JSON.stringify(action.payload.user));
             localStorage.setItem('token', JSON.stringify(action.payload.token));
         },
+        // this is in place of redux-persist because everytime page refreshes store resets to initial state so use this in useEffect of every page to set the store again
         setLoggedInUser: (state, action) => {
             state.user = action.payload.user
             state.token = action.payload.token;
         },
         setSignup: (state, action) => {
-            state.user = action.payload.formData
-            state.token = action.payload.formData
+            state.user = action.payload.user
+            state.token = action.payload.token
+            localStorage.setItem('userProfile', JSON.stringify(action.payload.user));
+            localStorage.setItem('token', JSON.stringify(action.payload.token));
         },
         setLogout: (state) => {
             state.user = null;
@@ -36,6 +39,6 @@ export const userSlice = createSlice({
     }
 })
 
-export const { setMode, setLogin, setLogout, setLoggedInUser } = userSlice.actions;
+export const { setMode, setLogin, setLogout, setLoggedInUser, setSignup } = userSlice.actions;
 
 export default userSlice.reducer;

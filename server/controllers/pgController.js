@@ -60,7 +60,7 @@ export const getAllPgs = async (req, res) => {
 
         return res.status(200).json({ noOfPgs: docCount, data: pgs });
     } catch (error) {
-        return res.status(500).json({ message: error.toString() + "From: server / controllers / pgController.js / getAllPgs - line:63" });
+        return res.status(500).json({ message: error.toString() + "At: server / controllers / pgController.js / getAllPgs()" });
     }
 }
 

@@ -1,12 +1,13 @@
 import React from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 import jwtDecode from "jwt-decode";
-
+import { motion } from "framer-motion";
 import { signin, signup } from "../actions/authAction";
-import { setLogin } from "../state/userSlice";
+import { setLogin, setSignup } from "../state/userSlice";
+import '../index.css'
+import { toast } from "react-toastify";
 
 const initialState = {
   name: "",
@@ -15,30 +16,45 @@ const initialState = {
   confirmPassword: "",
 };
 
-const Auth = () => {
+const Auth = ({ visible, onClose }) => {
   const [isSignUp, setIsSignUp] = useState(false);
 
   const [formData, setFormData] = useState(initialState);
 
   const dispatch = useDispatch();
 
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
     e.preventDefault();
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (isSignUp) {
-      console.log("SiginUp");
-      
-      dispatch(signup(formData, navigate));
+      // const { result, token } = await signup(formData);
+      let registerPromise = signup(formData)
+      console.log(registerPromise);
+
+      toast.promise(registerPromise, {
+        pending: 'Creating User...',
+        success: 'User Created Successfully...',
+        error: 'Something went Wrong!',
+      })
+      registerPromise.then((data) => {
+        const user = data.result;
+        const token = data.token;
+        dispatch(setSignup({ user, token }));
+      })
+        .catch((error => {
+          console.log(error);
+        }))
     } else {
-      console.log("SiginIn");
-      dispatch(signin(formData, navigate));
+      const { user, token } = await signin(formData);
+      dispatch(setLogin({ user, token }));
+
     }
+    onClose();
   };
 
   const googleSuccess = async (res) => {
@@ -46,7 +62,6 @@ const Auth = () => {
     const token = res?.credential;
     try {
       dispatch(setLogin({ user, token }))
-      navigate("/");
     } catch (error) {
       console.log(error);
     }
@@ -57,9 +72,30 @@ const Auth = () => {
     console.log("Google Sign In was unsuccessful. Try Again Later.");
   };
 
+  const handleOnClose = (e) => {
+    if (e.target.id === "container") onClose();
+  }
+
+  if (!visible) return null;
+
   return (
-    <div className="flex items-center justify-center h-screen bg-black">
-      <div className="authBox bg-violet-900 w-1/2 h-max flex my-8 items-center flex-col p-12 rounded-xl transition ease-in-out delay-60">
+    <div
+      className={`flex items-center justify-center h-screen bg-white fixed top-0 w-full bg-opacity-30 backdrop-blur-sm z-50`}
+      onClick={handleOnClose}
+      id="container"
+    >
+
+      <motion.div
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.8 }}
+        className={`authBox bg-violet-900 w-1/2 h-max flex my-8 items-center flex-col p-12 rounded-xl transition ease-in-out delay-60 relative`}
+      >
+        <button
+          className="px-2 text-2xl text-white bg-red-700 rounded-full absolute top-2 right-2"
+          onClick={onClose}
+        >X</button>
+
         <div className="text-3xl text-white font-medium">OwnPG.com</div>
 
         <p className="text-lg text-white mt-4">
@@ -123,17 +159,21 @@ const Auth = () => {
           />
         )}
 
-        <div className="mb-8">
-          <GoogleLogin
-            size="large"
-            onSuccess={(creadentialResponse) => {
-              googleSuccess(creadentialResponse);
-            }}
-            onError={(error) => {
-              googleFailure(error);
-            }}
-            useOneTap
-          />
+        <div className="mb-8 relative">
+          <div className="absolute opacity-30 top-0 left-0">
+            <GoogleLogin
+              size="large"
+              onSuccess={(creadentialResponse) => {
+                googleSuccess(creadentialResponse);
+                onClose();
+              }}
+              onError={(error) => {
+                googleFailure(error);
+              }}
+              useOneTap
+
+            />
+          </div>
         </div>
 
         <button
@@ -142,7 +182,7 @@ const Auth = () => {
         >
           {isSignUp ? "SignUp Now" : "Login Now"}
         </button>
-      </div>
+      </motion.div>
     </div>
   );
 };

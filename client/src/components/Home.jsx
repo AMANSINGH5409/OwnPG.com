@@ -1,10 +1,14 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { hands, search } from '../assets'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import '../index.css'
 import { useDispatch, useSelector } from "react-redux";
 import QuickFilters from "./QuickFilters";
 import { setLoggedInUser } from "../state/userSlice";
+
+
 const Home = () => {
   // states
   const [user, setUser] = useState(null);
@@ -19,10 +23,13 @@ const Home = () => {
     setToken(JSON.parse(localStorage.getItem("token")))
 
     dispatch(setLoggedInUser({ user, token }))
-  },[])
+
+  }, [])
 
   return (
     <div className="h-full">
+      <ToastContainer />
+
       {/* Quotes and Search Bar */}
       <div className="flex flex-col items-center justify-center mt-5 pt-5">
         <img src={hands} alt="hands" className="w-[80px]" />
