@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { hands, search } from '../assets'
-import styled from 'styled-components'
-
 import '../index.css'
 import { useDispatch, useSelector } from "react-redux";
 import QuickFilters from "./QuickFilters";
