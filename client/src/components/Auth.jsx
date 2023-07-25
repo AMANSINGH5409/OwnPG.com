@@ -1,13 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { GoogleLogin } from "@react-oauth/google";
 import jwtDecode from "jwt-decode";
 import { motion } from "framer-motion";
 import { signin, signup } from "../actions/authAction";
-import { setLogin, setSignup } from "../state/userSlice";
+import { clearMessage, setLogin, setSignup } from "../state/userSlice";
 import '../index.css'
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 
 
 const initialState = {
@@ -34,13 +34,12 @@ const Auth = ({ visible, onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (isSignUp) {
-
       let registerPromise = signup(formData, dispatch)
 
       toast.promise(registerPromise, {
         pending: 'Creating User...',
         success: 'User Created Successfully...',
-        error: userData.message,
+        error: "Something Went Wrong please try again!!",
       })
 
       registerPromise.then((data) => {
@@ -51,20 +50,31 @@ const Auth = ({ visible, onClose }) => {
         .catch((error => {
           console.log(error);
         }))
-    } else {
-      let loggedInPromise = signin(formData,dispatch);
 
-      toast.promise(loggedInPromise,{
+    } else {
+      let loggedInPromise = signin(formData, dispatch);
+
+      console.log("3");
+
+      toast.promise(loggedInPromise, {
         pending: 'Checking...',
-        success: 'LoggedIn Successfully...',
+        success: `LoggedIn Successfully...`,
         error: userData.message,
       })
+      // "Invalid Credentials Check ID/Password"
 
-      loggedInPromise.then((data)=>{
+      
+      console.log("Hello");
+
+      loggedInPromise.then((data) => {
         const user = data.result;
         const token = data.token;
         dispatch(setLogin({ user, token }));
       })
+        .catch((error) => {
+          console.log(error);
+        })
+      console.log("Hi");
     }
     onClose();
   };
@@ -172,7 +182,7 @@ const Auth = ({ visible, onClose }) => {
         )}
 
         <div className="mb-8 relative">
-          <div className="absolute opacity-30 top-0 left-0">
+          <div>
             <GoogleLogin
               size="large"
               onSuccess={(creadentialResponse) => {

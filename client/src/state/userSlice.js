@@ -4,7 +4,7 @@ const initialState = {
     user: null,
     mode: "light",
     token: null,
-    message : ""
+    message: ""
 }
 
 export const userSlice = createSlice({
@@ -37,11 +37,17 @@ export const userSlice = createSlice({
             localStorage.clear();
         },
         setMessage: (state, action) => {
-            state.message = action.payload.msg ;
+            console.log("4");
+            state.message = action.payload.msg;
+            console.log("5");
+            console.log(state.message);
+        },
+        clearMessage: (state) => {
+            state.message = "";
         }
     }
 })
 
-export const { setMode, setLogin, setLogout, setLoggedInUser, setSignup, setMessage } = userSlice.actions;
+export const { setMode, setLogin, setLogout, setLoggedInUser, setSignup, setMessage, clearMessage } = userSlice.actions;
 
 export default userSlice.reducer;

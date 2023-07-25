@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setLogout, setLoggedInUser } from "../state/userSlice";
 import { logoutImg } from "../assets";
+import useMediaQuery from '../hooks/useMediaQuery'
 
 const Navbar = ({ isTopOfPage, setIsActive, isActive, setVisible }) => {
   const navigate = useNavigate();
@@ -15,6 +16,7 @@ const Navbar = ({ isTopOfPage, setIsActive, isActive, setVisible }) => {
   // states
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("userProfile")));
   const [token, setToken] = useState(JSON.parse(localStorage.getItem("token")));
+  const isAboveMediumScreens = useMediaQuery("(min-width:1060px)")
 
   const navbarBackground = isTopOfPage ? "" : "backdrop-blur-sm bg-white/30 drop-shadow";
 
@@ -25,25 +27,6 @@ const Navbar = ({ isTopOfPage, setIsActive, isActive, setVisible }) => {
 
     setUser(null);
   };
-
-
-  // useEffect(() => {
-  //   setUser(JSON.parse(localStorage.getItem("userProfile")))
-  //   setToken(JSON.parse(localStorage.getItem("token")))
-
-  //   console.log(user);
-  //   console.log(token)
-  //   dispatch(setLoggedInUser({ user, token }))
-
-  //   if (token) {
-  //     const decodedToken = jwtDecode(token);
-
-  //     if (decodedToken.exp * 1000 < new Date().getTime()) logout();
-  //   }
-
-  //   //JWT
-  //   setUser(JSON.parse(localStorage.getItem("userProfile")));
-  // },[]);
 
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("userProfile")));
@@ -58,10 +41,10 @@ const Navbar = ({ isTopOfPage, setIsActive, isActive, setVisible }) => {
 
       if (decodedToken.exp * 1000 < new Date().getTime()) logout();
     }
-  }, [dispatch,token,user,location]);
+  }, [dispatch, token, user, location]);
 
 
-  const menuItems = ["Home", "Explore" , "Guide", "Suggest Me", "My Profile"];
+  const menuItems = ["Home", "Explore", "Guide", "Suggest Me", "My Profile"];
   return (
     <div className={`fixed top-0 w-full ${navbarBackground} h-20 flex z-40 items-center justify-between px-8 pb-2`}>
       <div
@@ -72,9 +55,10 @@ const Navbar = ({ isTopOfPage, setIsActive, isActive, setVisible }) => {
       </div>
       <div className="navItems w-2/5">
         <ul className="flex items-center justify-between">
+          {isAboveMediumScreens ? console.log("H") : ""}
           {menuItems.map((item, index) => {
             return (
-              <li className={`text-xl tracking-wider font-bold text-${item.toLowerCase() === isActive ? 'white' : '[#05386B]'} cursor-pointer hover:scale-110 hover:font-bold`}
+              <li className={`text-xl tracking-wider font-bold text-${item.toLowerCase() === isActive ? 'white' : '[#05386B]'} cursor-pointer hover:scale-110 transition-all duration-300 hover:font-bold`}
                 onClick={() => {
                   setIsActive(`${item.toLowerCase().replace(" ", "")}`)
                   navigate(`/${item === 'Home' ? '' : item.toLowerCase().replace(" ", "")}`);
