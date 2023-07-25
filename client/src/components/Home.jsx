@@ -43,7 +43,7 @@ const Home = () => {
 
       <div className="relative w-full flex justify-center flex-col gap-5 items-center px-5 my-8">
         <div className="max-w-[900px] w-full relative">
-          <input type="text" className="w-full mt-5 font-semibold text-xl text-[#448DE1] p-5 rounded-tl-[25px] rounded-br-[25px] drop-shadow-2xl focus:shadow-md focus:shadow-cyan-700 transition duration-150 focus:outline focus:outline-offset-2 focus:outline-2 outline-[#ffffff]" placeholder="Search here.......  { Area , Type , No. of Rooms }" />
+          <input type="text" className="w-full mt-5 font-semibold text-xl  text-[#448DE1] p-5 rounded-tl-[25px] rounded-br-[25px] drop-shadow-2xl focus:shadow-md focus:shadow-cyan-700 transition duration-150  focus:outline focus:outline-offset-2 focus:outline-2 outline-[#ffffff]" placeholder="Search here.......  { Area , Type , No. of Rooms }" />
           <img src={search} alt="serach_icon" className="absolute top-8 right-5 w-[40px]" />
         </div>
 
@@ -61,5 +61,4 @@ const Home = () => {
     </div>
   );
 };
-
 export default Home;

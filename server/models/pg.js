@@ -18,7 +18,7 @@ const pgSchema = mongoose.Schema({
     },
     pgArea: {
         type: String,
-        required: true,
+        // required: true,
     },
     pgRefPlace: {
         type: String,
@@ -26,11 +26,11 @@ const pgSchema = mongoose.Schema({
     },
     pgDistrict: {
         type: String,
-        required: true,
+        // required: true,
     },
     pgVillage: {
         type: String,
-        required: true,
+        // required: true,
     },
     pgState: {
         type: String,
@@ -38,13 +38,13 @@ const pgSchema = mongoose.Schema({
     },
     pgCountry: {
         type: String,
-        required: true,
+        // required: true,
     },
     pgRating: {
         type: Number,
-        required: true,
+        // required: true,
     },
-    price: {
+    pgPrice: {
         type: Number,
         required: true,
     },
@@ -76,8 +76,8 @@ const pgSchema = mongoose.Schema({
             place: String,
             distance: String,
         }],
-        required: true,
-        default:[{}],
+        // required: true,
+        default: [{}],
     },
     nearByFoodStalls: {
         type: [String],

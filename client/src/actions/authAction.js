@@ -4,7 +4,9 @@ import { setMessage } from '../state/userSlice'
 export const signin = async (formData, dispatch) => {
     return new Promise(async (resolve, reject) => {
         try {
+            console.log("Above");
             const { data } = await api.signin(formData);
+            console.log("below");
 
             resolve(data);
         } catch (error) {
@@ -30,4 +32,14 @@ export const signup = async (formData, dispatch) => {
         }
 
     })
+}
+
+export const allPgs = async () => {
+    try {
+        const { data } = await api.getAllPgs();
+
+        return { data };
+    } catch (error) {
+        return { error: error.message }
+    }
 }

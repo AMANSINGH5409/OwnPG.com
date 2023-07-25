@@ -5,7 +5,7 @@ import { GoogleLogin } from "@react-oauth/google";
 import jwtDecode from "jwt-decode";
 import { motion } from "framer-motion";
 import { signin, signup } from "../actions/authAction";
-import { clearMessage, setLogin, setSignup } from "../state/userSlice";
+import { setLogin, setSignup } from "../state/userSlice";
 import '../index.css'
 import { ToastContainer, toast } from "react-toastify";
 
@@ -59,7 +59,8 @@ const Auth = ({ visible, onClose }) => {
       toast.promise(loggedInPromise, {
         pending: 'Checking...',
         success: `LoggedIn Successfully...`,
-        error: userData.message,
+        // error: userData.message,
+        error: "Invalid Credentials",
       })
       // "Invalid Credentials Check ID/Password"
 
@@ -122,7 +123,7 @@ const Auth = ({ visible, onClose }) => {
 
         <p className="text-lg text-white mt-4">
           Login / SignUp to get access to your desired PG & Rooms
-        </p>
+          </p>
 
         <div className="authOption flex justify-between w-3/5 h-16 my-8">
           <p
@@ -193,7 +194,6 @@ const Auth = ({ visible, onClose }) => {
                 googleFailure(error);
               }}
               useOneTap
-
             />
           </div>
         </div>

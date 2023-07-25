@@ -14,3 +14,8 @@ API.interceptors.request.use((req) => {
 export const signin = (formData) => API.post('/users/signin', formData);
 
 export const signup = (formData) => API.post('/users/signup', formData);
+
+// PG Related APIs
+export const getAllPgs = () => API.get('/pg');
+
+export const addPg = (pgdetails) => API.post('/pg',pgdetails);
