@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
-import Navbar from './components/Navbar';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import Home from './components/Home';
-import Explore from './components/Explore';
-import Auth from './components/Auth';
 import './index.css'
-import SplashScreen from './components/SplashScreen';
 import { motion } from 'framer-motion'
-import { AddPg, CreatePg } from './components'
+import { SplashScreen, Home, AddPg, CreatePg, Profile, Explore, Auth } from './components'
+import AuthorizeUser from './reusable/AuthorizeUser';
+import { ToastContainer, toast } from 'react-toastify';
+import { NavbarNew, AsideNavbar, AddPgNew } from './components';
+import { sideicon } from './assetsnew';
 
 const App = () => {
     // states
     const [isLoading, setIsLoading] = useState(true);
+    const [collapse, setCollapse] = useState(false);
     const [isTopOfPage, setIsTopOfPage] = useState(true);
-    const [isActive, setIsActive] = useState('home');
     const [visible, setVisible] = useState(false);
     const navigate = useNavigate();
     const [onCreatePage, setOnCreatePage] = useState(false);
@@ -40,13 +39,18 @@ const App = () => {
     }, []);
 
 
+    // Functions
     const handleOnclose = () => {
         setVisible(false);
     }
 
+    const handleCollaps = () => {
+        setCollapse(prev => !prev)
+    }
+
     return (
         <div className={`h-screen ${isLoading ? "overflow-hidden" : ""}`}>
-            {isLoading ?
+            {/* {isLoading ?
                 <motion.div
                     initial="start"
                     animate="end"
@@ -56,49 +60,65 @@ const App = () => {
                 >
                     <SplashScreen />
                 </motion.div>
-                :
-                <motion.div
-                    initial={{ opacity: 0, scale: 1 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 1.0 }}
-                    className="h-full">
-                    <GoogleOAuthProvider clientId='789920631154-pk8u145cc7a8ss3hn9qkakctaq4es404.apps.googleusercontent.com'>
-                        <div className='app h-full relative'>
-                            <div className=''>
-                                <Navbar isTopOfPage={isTopOfPage} setVisible={setVisible} visible={visible} isActive={isActive} setIsActive={setIsActive} setOnCreatePage={setOnCreatePage} />
+                : */}
+            <motion.div
+                initial={{ opacity: 0, scale: 1 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1.0 }}
+                className="h-full">
+                <ToastContainer />
+                <GoogleOAuthProvider clientId='789920631154-pk8u145cc7a8ss3hn9qkakctaq4es404.apps.googleusercontent.com'>
+                    <div className='app h-full relative'>
+                        <div className=''>
+                            {/* <Navbar isTopOfPage={isTopOfPage} setVisible={setVisible} visible={visible} isActive={isActive} setIsActive={setIsActive} setOnCreatePage={setOnCreatePage} /> */}
+                            <NavbarNew />
+                        </div>
+
+                        {/* Main Content */}
+                        <div className="w-full flex">
+                            {/* Aside Nav */}
+                            <div className={`${collapse ? 'w-0' : 'w-[18%]'} overflow-hidden p-2 shadow-xl rounded-tr-xl rounded-br-xl duration-200`}
+                                style={{ boxShadow: '0px -5px 5px rgba(0,0,0,0.2),0px 5px 5px rgba(0,0,0,0.2)' }}
+                            >
+                                <AsideNavbar handleCollaps={handleCollaps} collapse={collapse} />
                             </div>
-                            <div className="pt-20">
+                            <img src={sideicon} alt="sideicon" className={`${!collapse ? 'hidden' : ''} rotate-180 w-[25px] h-[25px] cursor-pointer`} onClick={handleCollaps} />
+
+                            <div className="ml-4 flex-1 ">
                                 <Routes>
                                     <Route path='/' exact Component={Home} />
                                     {/* <Route path='/auth' onClose={handleOnclose} visible={visible} exact Component={Auth} /> */}
-                                </Routes>
-                                <Routes>
                                     <Route path='/explore' exact Component={Explore} />
-                                </Routes>
-                                <Routes>
-                                    <Route path='/addpg' exact Component={AddPg} />
+                                    <Route path='/addpg' element={<AuthorizeUser Component={AddPgNew} />} />
+                                    <Route path='/profile' element={<AuthorizeUser Component={Profile} />} />
                                 </Routes>
                             </div>
-
-                            {/* Show Floating Sign Of AddPG */}
-
-                            {!onCreatePage &&
-                                (
-                                    <div className="fixed z-20 bottom-[50px] right-[50px] w-[70px] h-[70px] bg-blue-700 rounded-full py-2 text-white float-right flex justify-center cursor-pointer hover:rotate-45 duration-500"
-                                        onClick={() => {
-                                            navigate("/addpg")
-                                            setOnCreatePage(true)
-                                        }}
-                                    >
-                                        <CreatePg />
-                                    </div>
-                                )
-                            }
                         </div>
-                        <Auth onClose={handleOnclose} visible={visible} />
-                    </GoogleOAuthProvider>
-                </motion.div>
-            }
+
+                        {/* Show Floating Sign Of AddPG */}
+
+                        {!onCreatePage &&
+                            (
+                                <div className="fixed z-20 bottom-[50px] right-[50px] w-[70px] h-[70px] bg-blue-700 rounded-full py-2 text-white float-right flex justify-center cursor-pointer hover:rotate-45 duration-500"
+                                    onClick={() => {
+                                        const token = localStorage.getItem('token');
+                                        if (token) {
+                                            setOnCreatePage(true)
+                                            navigate("/addpg")
+                                        } else {
+                                            toast.error("Please Login First")
+                                        }
+                                    }}
+                                >
+                                    <CreatePg />
+                                </div>
+                            )
+                        }
+                    </div>
+                    <Auth onClose={handleOnclose} visible={visible} />
+                </GoogleOAuthProvider>
+            </motion.div>
+            {/* } */}
         </div >
     );
 }

@@ -13,6 +13,7 @@ export const userSlice = createSlice({
     reducers: {
         setMode: (state) => {
             state.mode = state.mode === "light" ? "dark" : "light"
+            localStorage.setItem('mode', state.mode);
         },
         setLogin: (state, action) => {
             state.user = action.payload.user;

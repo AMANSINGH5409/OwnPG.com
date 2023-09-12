@@ -6,10 +6,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { setLogout, setLoggedInUser } from "../state/userSlice";
 import { logoutImg, menuClose, menuOpen } from "../assets";
 import useMediaQuery from '../hooks/useMediaQuery'
+import Hamburger from "../reusable/Hamburger Hamburger Hamburger";
 
 const Navbar = ({ isTopOfPage, setIsActive, isActive, setVisible, setOnCreatePage }) => {
   const navigate = useNavigate();
-  const userData = useSelector((state) => state.userRed)
+  // const userData = useSelector((state) => state.userRed)
   const dispatch = useDispatch();
   const location = useLocation();
 
@@ -32,9 +33,7 @@ const Navbar = ({ isTopOfPage, setIsActive, isActive, setVisible, setOnCreatePag
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("userProfile")));
     setToken(JSON.parse(localStorage.getItem("token")));
-    console.log("Hello");
-    console.log(isAboveMediumScreens);
-  }, [isAboveMediumScreens]);
+  }, []);
 
   useEffect(() => {
     dispatch(setLoggedInUser({ user, token }));
@@ -46,10 +45,12 @@ const Navbar = ({ isTopOfPage, setIsActive, isActive, setVisible, setOnCreatePag
     }
     console.log("hi");
 
-  }, []);
+  }, [user, token, logout]);
 
   useEffect(() => {
-
+    console.log(user);
+    // console.log(userData);
+    console.log("refresh");
   }, [user, location])
 
   const menuItems = ["Home", "Explore", "Guide", "Suggest Me", "My Profile"];
@@ -92,7 +93,8 @@ const Navbar = ({ isTopOfPage, setIsActive, isActive, setVisible, setOnCreatePag
           <div
             className="authBtn flex items-center justify-end px-8 py-2 rounded-lg bg-[#002B5C] hover:scale-105 transition ease-in-out delay-150 cursor-pointer"
             onClick={() => {
-              if (userData.user) {
+              // if (userData?.user) 
+              if (user?.name) {
                 logout();
               } else {
                 setVisible(true);
@@ -101,10 +103,12 @@ const Navbar = ({ isTopOfPage, setIsActive, isActive, setVisible, setOnCreatePag
             }}
           >
             <p className="text-white flex gap-3">
-              {userData.user ? userData?.user.name : "Login/Sign Up"}
+              {/* {userData.user ? userData?.user.name : "Login/Sign Up"} */}
+              {user ? user.name : "Login/Sign Up"}
 
               {/*  show image only when user is logged in */}
-              {userData.user ?
+              {/* {userData.user ? */}
+              {user ?
                 <img src={logoutImg} alt="logout" className="w-[20px]" />
                 : ""
               }
@@ -115,9 +119,16 @@ const Navbar = ({ isTopOfPage, setIsActive, isActive, setVisible, setOnCreatePag
 
       {/* Mobile Navbar */}
       {!isAboveMediumScreens ?
-        <div className="w-full flex justify-end items-center">
-          {open ? <img src={menuClose} alt="menuClose" onClick={() => setOpen(false)} className="w-[40px]" /> : <img src={menuOpen} alt="menuOpen" onClick={() => setOpen(true)} className="w-[40px]" />}
-        </div> : ''}
+        <div onClick={() => {
+          setOpen(prev => !prev)
+          console.log(open);
+        }}>
+          <Hamburger />
+        </div>
+        // <div className="w-full flex justify-end items-center">
+        //   {open ? <img src={menuClose} alt="menuClose" onClick={() => setOpen(false)} className="w-[40px]" /> : <img src={menuOpen} alt="menuOpen" onClick={() => setOpen(true)} className="w-[40px]" />}
+        // </div>
+        : ''}
 
       {
         open ?
@@ -139,6 +150,31 @@ const Navbar = ({ isTopOfPage, setIsActive, isActive, setVisible, setOnCreatePag
                   </li>
                 );
               })}
+              <div
+                className="authBtn flex items-center justify-end px-8 py-2 rounded-lg bg-[#002B5C] hover:scale-105 transition ease-in-out delay-150 cursor-pointer"
+                onClick={() => {
+                  // if (userData?.user) 
+                  if (user?.name) {
+                    logout();
+                  } else {
+                    setVisible(true);
+                  }
+                  // navigate("/auth")
+                }}
+              >
+                <p className="text-white flex gap-3">
+                  {/* {userData.user ? userData?.user.name : "Login/Sign Up"} */}
+                  {user ? user.name : "Login/Sign Up"}
+
+                  {/*  show image only when user is logged in */}
+                  {/* {userData.user ? */}
+                  {user ?
+                    <img src={logoutImg} alt="logout" className="w-[20px]" />
+                    : ""
+                  }
+                </p>
+              </div>
+
             </ul>
           </div>
           : ''

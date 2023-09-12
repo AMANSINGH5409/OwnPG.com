@@ -55,7 +55,7 @@ const AddPg = () => {
     let createPromise = createPg(pgdetails);
 
     toast.promise(createPromise, {
-      pending: 'Adding User...',
+      pending: 'Adding PG...',
       success: 'PG Added Successfully...',
       error: "Something Went Wrong please try again!!",
     })

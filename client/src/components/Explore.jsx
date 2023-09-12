@@ -2,7 +2,9 @@ import { useEffect, useState } from 'react'
 import { search } from '../assets'
 import { allPgs } from '../actions/authAction';
 import PgCard from './PgCard.jsx'
-import Loader from '../components/Loader'
+import { ScaleLoader } from 'react-spinners'
+import { motion } from 'framer-motion';
+
 const Explore = () => {
     //  States
     const [isLoaded, setIsLoaded] = useState(false);
@@ -24,6 +26,28 @@ const Explore = () => {
 
         return { data };
     }
+
+    // Animations Variants
+    const container = {
+        hidden: { opacity: 1, scale: 0 },
+        visible: {
+            opacity: 1,
+            scale: 1,
+            transition: {
+                delayChildren: 0.3,
+                staggerChildren: 0.2
+            }
+        }
+    };
+
+    const child = {
+        hidden: { y: 20, opacity: 0 },
+        visible: {
+            y: 0,
+            opacity: 1
+        }
+    }
+
     return (
         <div className='h-full'>
             {/* Search Bar */}
@@ -47,17 +71,38 @@ const Explore = () => {
                     <h1 className='font-bold text-2xl text-h1Color'>Based On Your Preference</h1>
 
                     <div className="p-5 flex flex-wrap justify-start gap-2">
-
                         {
-                            !isLoaded ? <Loader />
-                                : allPgsInfo.map((item) => (
-                                    <PgCard pgInfo={item} />
-                                ))
+                            !isLoaded ? <div className="w-full flex items-center justify-center min-h-[400px]">
+                                <ScaleLoader
+                                    color="#0a168a"
+                                    height={60}
+                                    width={10}
+                                />
+                            </div>
+                                :
+                                <motion.div
+                                    className="flex flex-wrap md:justify-start justify-center w-full gap-3"
+                                    variants={container}
+                                    initial="hidden"
+                                    animate="visible"
+                                >
+                                    {
+                                        allPgsInfo.map((item, i) => (
+                                            <motion.div
+                                                key={i}
+                                                className="md:max-w-[330px] md:min-w-[220px] max-w-[350px]"
+                                                variants={child}
+                                            >
+                                                <PgCard pgInfo={item} />
+                                            </motion.div>
+                                        ))
+                                    }
+                                </motion.div>
                         }
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 
