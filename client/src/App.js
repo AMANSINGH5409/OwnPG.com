@@ -3,7 +3,7 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import './index.css'
 import { motion } from 'framer-motion'
-import { SplashScreen, Home, AddPg, CreatePg, Profile, Explore, Auth } from './components'
+import { Home, CreatePg, Profile, Explore, Auth } from './components'
 import AuthorizeUser from './reusable/AuthorizeUser';
 import { ToastContainer, toast } from 'react-toastify';
 import { NavbarNew, AsideNavbar, AddPgNew } from './components';
@@ -17,11 +17,8 @@ const App = () => {
     const [visible, setVisible] = useState(false);
     const navigate = useNavigate();
     const [onCreatePage, setOnCreatePage] = useState(false);
+    const [onClose, setOnClose] = useState(false);
 
-    const animationVariants = {
-        start: { scale: 0 },
-        end: { scale: 5, opacity: 0 },
-    };
     useEffect(() => {
         setTimeout(() => {
             setIsLoading(false);
@@ -66,28 +63,32 @@ const App = () => {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1.0 }}
                 className="h-full">
-                <ToastContainer />
+                <div className="w-[25px] absolute left-3 top-2">
+                    <ToastContainer />
+                </div>
                 <GoogleOAuthProvider clientId='789920631154-pk8u145cc7a8ss3hn9qkakctaq4es404.apps.googleusercontent.com'>
                     <div className='app h-full relative'>
-                        <div className=''>
+                        <div className='sticky bg-transparent'>
                             {/* <Navbar isTopOfPage={isTopOfPage} setVisible={setVisible} visible={visible} isActive={isActive} setIsActive={setIsActive} setOnCreatePage={setOnCreatePage} /> */}
                             <NavbarNew />
                         </div>
-
+                        <div>
+                            <H></H>
+                        </div>
                         {/* Main Content */}
                         <div className="w-full flex">
                             {/* Aside Nav */}
-                            <div className={`${collapse ? 'w-0' : 'w-[18%]'} overflow-hidden p-2 shadow-xl rounded-tr-xl rounded-br-xl duration-200`}
+                            <div className={`${collapse ? 'w-0' : 'w-[18%]'} overflow-hidden p-2 shadow-xl rounded-tr-xl rounded-br-xl duration-200 sticky left-0 top-10  h-max`}
                                 style={{ boxShadow: '0px -5px 5px rgba(0,0,0,0.2),0px 5px 5px rgba(0,0,0,0.2)' }}
                             >
-                                <AsideNavbar handleCollaps={handleCollaps} collapse={collapse} />
+                                <AsideNavbar handleCollaps={handleCollaps} setVisible={setVisible} collapse={collapse} />
                             </div>
                             <img src={sideicon} alt="sideicon" className={`${!collapse ? 'hidden' : ''} rotate-180 w-[25px] h-[25px] cursor-pointer`} onClick={handleCollaps} />
 
                             <div className="ml-4 flex-1 ">
                                 <Routes>
                                     <Route path='/' exact Component={Home} />
-                                    {/* <Route path='/auth' onClose={handleOnclose} visible={visible} exact Component={Auth} /> */}
+                                    <Route path='/auth' onClose={handleOnclose} visible={visible} exact Component={Auth} />
                                     <Route path='/explore' exact Component={Explore} />
                                     <Route path='/addpg' element={<AuthorizeUser Component={AddPgNew} />} />
                                     <Route path='/profile' element={<AuthorizeUser Component={Profile} />} />

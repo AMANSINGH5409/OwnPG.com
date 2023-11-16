@@ -1,9 +1,11 @@
 import React from "react";
 import '../index.css'
 import QuickFilters from "./QuickFilters";
+import { Explore } from "./";
+import { ToastContainer } from "react-toastify";
 
 
-const Home = () => {  
+const Home = () => {
   // states
 
 
@@ -12,8 +14,11 @@ const Home = () => {
   return (
     <div className="h-full">
       {/* Quick FilterChips */}
-      <div className="flex ml-12">
+      <div className="flex flex-col ml-12">
         <QuickFilters />
+        <div className="w-full p-2">
+          <Explore />
+        </div>
       </div>
 
     </div>

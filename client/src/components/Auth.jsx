@@ -107,7 +107,6 @@ const Auth = ({ visible, onClose }) => {
       onClick={handleOnClose}
       id="container"
     >
-
       <motion.div
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -167,7 +166,7 @@ const Auth = ({ visible, onClose }) => {
         />
         <input
           name="password"
-          type="text"
+          type="password"
           onChange={handleChange}
           className="w-3/5 h-16 mb-8 rounded-lg px-8 text-xl text-[#555555]"
           placeholder="Password*"
@@ -175,7 +174,7 @@ const Auth = ({ visible, onClose }) => {
         {isSignUp && (
           <input
             name="confirmPassword"
-            type="text"
+            type="password"
             onChange={handleChange}
             className="w-3/5 h-16 mb-8 rounded-lg px-8 text-xl text-[#555555]"
             placeholder="Confirm Password*"

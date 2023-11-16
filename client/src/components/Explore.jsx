@@ -49,14 +49,14 @@ const Explore = () => {
     }
 
     return (
-        <div className='h-full'>
+        <div className=''>
             {/* Search Bar */}
-            <div className='flex items-center justify-center w-full'>
+            {/* <div className='flex items-center justify-center w-full'>
                 <div className='md:min-w-[400px] min-w-[200px] md:w-[600px] w-[300px] relative'>
                     <input type="text" className='w-full p-4 text-h1Color font-bold outline-none drop-shadow-lg rounded-xl h-[40px] border-sky-900 border-2 border-opacity-50' placeholder='Search ' />
                     <img src={search} alt="search" className='w-[25px] absolute right-2 top-2' />
                 </div>
-            </div>
+            </div> */}
 
             {/*  Explore Section */}
             <div className="">

@@ -10,8 +10,12 @@ import landlord from './landlord.png'
 import feedback from './feedback.png'
 import contact_us from './contact_us.png'
 import sideicon from './sideicon.png'
+import pgImg from './pgImg.png'
+import logout from './logout.jpg'
 
 export {
+    logout,
+    pgImg,
     sideicon,
     contact_us,
     feedback,

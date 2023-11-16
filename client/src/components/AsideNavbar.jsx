@@ -2,14 +2,27 @@ import { GoogleLogin } from '@react-oauth/google';
 import jwtDecode from 'jwt-decode';
 import React from 'react'
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { setLogin } from '../state/userSlice';
-import { home, guide, suggest_me, profile, landlord, feedback, contact_us, sideicon } from '../assetsnew'
+import { home, guide, suggest_me, profile,logout, landlord, feedback, contact_us, sideicon } from '../assetsnew'
 
-const AsideNavbar = ({ handleCollaps , collapse}) => {
+const AsideNavbar = ({ handleCollaps, collapse , setVisible }) => {
     // States
     const dispatch = useDispatch();
+    const navigate = useNavigate()
+
 
     // Functions
+
+    const handleNavigate = (e) => {
+        const path = e.target.innerHTML.toLowerCase()
+        console.log(path);
+        if( path === 'home' ){
+            navigate("/")
+        }else{
+            navigate("/"+path)
+        }
+    }
     const googleSuccess = async (res) => {
         const user = jwtDecode(res?.credential);
         const token = res?.credential;
@@ -46,21 +59,38 @@ const AsideNavbar = ({ handleCollaps , collapse}) => {
                         </div>
                         <div className="flex flex-col justify-center items-center gap-4 mt-5">
                             <ul className="flex flex-col gap-1">
-                                <div className="flex w-full gap-2 items-center  rounded-lg p-1 border-[#FF304F]  text-gray-500 hover:border-r-4 duration-200 hover:text-[#FF304F] hover:cursor-pointer hover:bg-gray-100" >
+                                <div className="flex w-full gap-2 items-center  rounded-lg p-1 border-[#FF304F]  text-gray-500 hover:border-r-4 duration-200 hover:text-[#FF304F] hover:cursor-pointer hover:bg-gray-100"
+                                    onClick={handleNavigate}
+                                >
                                     <img src={home} alt="home" className="ml-2 w-[30px] h-[30px]" />
                                     <li className="py-2 w-[140px]  text-center font-semibold text-lg rounded-lg">Home</li>
                                 </div>
-                                <div className="flex w-full gap-2 items-center  rounded-lg p-1 border-[#FF304F]  text-gray-500 hover:border-r-4 duration-200 hover:text-[#FF304F] hover:cursor-pointer hover:bg-gray-100">
-                                    <img src={guide} alt="guide" className="ml-2 w-[30px] h-[30px]" />
-                                    <li className="py-2 w-[150px]  text-center font-semibold text-lg rounded-lg  ">Guide</li>
+                                <div className="flex w-full gap-2 items-center  rounded-lg p-1 border-[#FF304F]  text-gray-500 hover:border-r-4 duration-200 hover:text-[#FF304F] hover:cursor-pointer hover:bg-gray-100"
+                                    onClick={handleNavigate}
+                                >
+                                    <img src={guide} alt="Explore" className="ml-2 w-[30px] h-[30px]" />
+                                    <li className="py-2 w-[150px]  text-center font-semibold text-lg rounded-lg  ">Explore</li>
                                 </div>
-                                <div className="flex w-full gap-2 items-center  rounded-lg p-1 border-[#FF304F] text-gray-500  hover:border-r-4 duration-200 hover:text-[#FF304F] hover:cursor-pointer hover:bg-gray-100">
+                                <div className="flex w-full gap-2 items-center  rounded-lg p-1 border-[#FF304F] text-gray-500  hover:border-r-4 duration-200 hover:text-[#FF304F] hover:cursor-pointer hover:bg-gray-100"
+                                    onClick={handleNavigate}
+                                >
                                     <img src={suggest_me} alt="suggest_me" className="ml-2 w-[30px] h-[30px]" />
                                     <li className="py-2 w-[150px]  text-center font-semibold text-lg rounded-lg "> Suggest Me</li>
                                 </div>
-                                <div className="flex w-full gap-2 items-center  rounded-lg p-1 border-[#FF304F]  text-gray-500 hover:border-r-4 duration-200 hover:text-[#FF304F] hover:cursor-pointer hover:bg-gray-100">
+                                <div className="flex w-full gap-2 items-center  rounded-lg p-1 border-[#FF304F]  text-gray-500 hover:border-r-4 duration-200 hover:text-[#FF304F] hover:cursor-pointer hover:bg-gray-100"
+                                    onClick={handleNavigate}
+                                >
                                     <img src={profile} alt="profile" className="ml-2 w-[30px] h-[30px]" />
                                     <li className="py-2 w-[150px]  text-center font-semibold text-lg rounded-lg  ">Profile</li>
+                                </div>
+                                <div className="flex w-full gap-2 items-center  rounded-lg p-1 border-[#FF304F]  text-gray-500 hover:border-r-4 duration-200 hover:text-[#FF304F] hover:cursor-pointer hover:bg-gray-100"
+                                    onClick={(e) => {
+                                        setVisible(true)
+                                        // handleNavigate(e)
+                                    }}
+                                >
+                                    <img src={logout} alt="profile" className="ml-2 w-[30px] h-[30px]" />
+                                    <li className="py-2 w-[150px]  text-center font-semibold text-lg rounded-lg  ">Login</li>
                                 </div>
                             </ul>
                         </div>
@@ -95,7 +125,7 @@ const AsideNavbar = ({ handleCollaps , collapse}) => {
                                 <h2 className="text-xl text-gray-500 ml-5">Contact Us</h2>
                             </div>
                         </div>
-                        <div className={`flex w-full justify-end items-end hover:cursor-pointer ${collapse ? 'block' : '' }`}>
+                        <div className={`flex w-full justify-end items-end hover:cursor-pointer ${collapse ? 'block' : ''}`}>
                             <img src={sideicon} alt="sideicon" className="w-[20px] mr-2" onClick={handleCollaps} />
                         </div>
                     </div>

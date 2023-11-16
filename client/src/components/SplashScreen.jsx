@@ -1,9 +1,6 @@
-import { useState } from "react";
 import { applogo } from "../assets"
-import BeatLoader from "react-spinners/BeatLoader";
 
 const SplashScreen = () => {
-    const [color, setColor] = useState("#05386B");
 
     return (
         <div className="flex flex-col justify-center items-center h-full bg-white">
